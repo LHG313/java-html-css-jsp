@@ -204,17 +204,17 @@ public class BuildService {
 				Article prevArticle = null;
 				int prevArticleIndex = i + 1;
 				int prevArticleId = 0;
-				
-				if ( prevArticleIndex < articles.size() ) {
+
+				if (prevArticleIndex < articles.size()) {
 					prevArticle = articles.get(prevArticleIndex);
 					prevArticleId = prevArticle.id;
 				}
-				
+
 				Article nextArticle = null;
 				int nextArticleIndex = i - 1;
 				int nextArticleId = 0;
-				
-				if ( nextArticleIndex >= 0 ) {
+
+				if (nextArticleIndex >= 0) {
 					nextArticle = articles.get(nextArticleIndex);
 					nextArticleId = nextArticle.id;
 				}
@@ -228,15 +228,21 @@ public class BuildService {
 				body = body.replace("${article-detail__reg-date}", article.regDate);
 				body = body.replace("${article-detail__writer}", article.extra__writer);
 				body = body.replace("${article-detail__body}", article.body);
-				body = body.replace("${article-detail__link-prev-article-url}", getArticleDetailFileName(prevArticleId));
-				body = body.replace("${article-detail__link-prev-article-title-attr}", prevArticle != null ? prevArticle.title : "");
-				body = body.replace("${article-detail__link-prev-article-class-addi}", prevArticleId == 0 ? "none" : "");
+				body = body.replace("${article-detail__link-prev-article-url}",
+						getArticleDetailFileName(prevArticleId));
+				body = body.replace("${article-detail__link-prev-article-title-attr}",
+						prevArticle != null ? prevArticle.title : "");
+				body = body.replace("${article-detail__link-prev-article-class-addi}",
+						prevArticleId == 0 ? "none" : "");
 				body = body.replace("${article-detail__link-list-url}",
 						getArticleListFileName(article.extra__boardCode, 1));
 				body = body.replace("${article-detail__link-list-class-addi}", "");
-				body = body.replace("${article-detail__link-next-article-url}", getArticleDetailFileName(nextArticleId));
-				body = body.replace("${article-detail__link-next-article-title-attr}", nextArticle != null ? nextArticle.title : "");
-				body = body.replace("${article-detail__link-next-article-class-addi}", nextArticleId == 0 ? "none" : "");
+				body = body.replace("${article-detail__link-next-article-url}",
+						getArticleDetailFileName(nextArticleId));
+				body = body.replace("${article-detail__link-next-article-title-attr}",
+						nextArticle != null ? nextArticle.title : "");
+				body = body.replace("${article-detail__link-next-article-class-addi}",
+						nextArticleId == 0 ? "none" : "");
 
 				sb.append(body);
 
@@ -291,9 +297,9 @@ public class BuildService {
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
 		} else if (pageName.startsWith("article_list_free")) {
-			return "<i class=\"fab fa-free-code-camp\"></i> <span>FREE LIST</span>";
+			return "<i class=\"far fa-edit\"></i> <span>FREE LIST</span>";
 		} else if (pageName.startsWith("article_list_notice")) {
-			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
+			return "<i class=\"fas fa-volume-up\"></i> <span>NOTICE LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
 		}
