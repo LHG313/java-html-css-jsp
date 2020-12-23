@@ -293,7 +293,7 @@ public class BuildService {
 
 	private String getTitleBarContentByPageName(String pageName) {
 		if (pageName.equals("index")) {
-			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+			return "<i class=\"fas fa-dove\"></i></i> <span>상상의 공간</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
 		} else if (pageName.startsWith("article_list_free")) {
