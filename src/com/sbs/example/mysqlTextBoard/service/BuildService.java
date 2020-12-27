@@ -263,6 +263,10 @@ public class BuildService {
 	}
 
 	private String getHeadHtml(String pageName) {
+		return getHeadHtml(pageName, null);
+	}
+
+	private String getHeadHtml(String pageName, Object relObj) {
 		String head = Util.getFileContents("site_template/head.html");
 
 		StringBuilder boardMenuContentHtml = new StringBuilder();
@@ -288,7 +292,59 @@ public class BuildService {
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
 
+		String pageTitle = getPageTitle(pageName, relObj);
+
+		head = head.replace("${page-title}", pageTitle);
+
+		String siteName = "Imaginary";
+		String siteSubject = "비전공자의 공부/일상 블로그";
+		String siteDescription = "비전공자의 공부/일상 관련 글들을 공유합니다.";
+		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
+		String siteDomain = "blog.imaginaryspace.kr/";
+		String siteMainUrl = "https://" + siteDomain;
+		String currentDate = Util.getNowDateStr().replace(" ", "T");
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
+			siteSubject = article.title;
+			siteDescription = article.body;
+			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
+		}
+
+		head = head.replace("${site-name}", siteName);
+		head = head.replace("${site-subject}", siteSubject);
+		head = head.replace("${site-description}", siteDescription);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${current-date}", currentDate);
+		head = head.replace("${site-main-url}", siteMainUrl);
+		head = head.replace("${site-keywords}", siteKeywords);
+
 		return head;
+	}
+
+	private String getPageTitle(String pageName, Object relObj) {
+		StringBuilder sb = new StringBuilder();
+
+		String forPrintPageName = pageName;
+
+		if (forPrintPageName.equals("index")) {
+			forPrintPageName = "home";
+		}
+
+		forPrintPageName = forPrintPageName.toUpperCase();
+		forPrintPageName = forPrintPageName.replaceAll("_", " ");
+
+		sb.append("상상의 공간 | ");
+		sb.append(forPrintPageName);
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
+
+			sb.insert(0, article.title + " | ");
+		}
+
+		return sb.toString();
 	}
 
 	private String getTitleBarContentByPageName(String pageName) {
@@ -304,7 +360,7 @@ public class BuildService {
 			return "<i class=\"fab fa-java\"></i> <span>JAVA LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
-		} 
+		}
 
 		return "";
 	}
