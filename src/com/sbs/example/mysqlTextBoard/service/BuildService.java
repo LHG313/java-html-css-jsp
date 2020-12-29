@@ -21,6 +21,8 @@ public class BuildService {
 		System.out.println("site/article 폴더 생성");
 		Util.mkdirs("site");
 
+		Util.copyDir("site_template/img", "site/img");
+
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
 
@@ -189,7 +191,6 @@ public class BuildService {
 	private void buildArticleDetailPages() {
 		List<Board> boards = articleService.getForPrintBoards();
 
-		String head = getHeadHtml("article_detail");
 		String bodyTemplate = Util.getFileContents("site_template/article_detail.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 
@@ -201,6 +202,9 @@ public class BuildService {
 			// 0, 1, 2, 3, 4
 			for (int i = 0; i < articles.size(); i++) {
 				Article article = articles.get(i);
+
+				String head = getHeadHtml("article_detail", article);
+
 				Article prevArticle = null;
 				int prevArticleIndex = i + 1;
 				int prevArticleId = 0;
@@ -223,11 +227,14 @@ public class BuildService {
 
 				sb.append(head);
 
+				String articleBodyForPrint = article.body;
+				articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
+
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
 				body = body.replace("${article-detail__board-name}", article.extra__boardName);
 				body = body.replace("${article-detail__reg-date}", article.regDate);
 				body = body.replace("${article-detail__writer}", article.extra__writer);
-				body = body.replace("${article-detail__body}", article.body);
+				body = body.replace("${article-detail__body}", articleBodyForPrint);
 				body = body.replace("${article-detail__link-prev-article-url}",
 						getArticleDetailFileName(prevArticleId));
 				body = body.replace("${article-detail__link-prev-article-title-attr}",
@@ -303,13 +310,6 @@ public class BuildService {
 		String siteDomain = "blog.imaginaryspace.kr/";
 		String siteMainUrl = "https://" + siteDomain;
 		String currentDate = Util.getNowDateStr().replace(" ", "T");
-
-		if (relObj instanceof Article) {
-			Article article = (Article) relObj;
-			siteSubject = article.title;
-			siteDescription = article.body;
-			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
-		}
 
 		head = head.replace("${site-name}", siteName);
 		head = head.replace("${site-subject}", siteSubject);
