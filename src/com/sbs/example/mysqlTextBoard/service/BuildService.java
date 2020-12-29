@@ -197,9 +197,6 @@ public class BuildService {
 		for (Board board : boards) {
 			List<Article> articles = articleService.getForPrintArticles(board.id);
 
-			// 5
-			// i : 0 ~ 4
-			// 0, 1, 2, 3, 4
 			for (int i = 0; i < articles.size(); i++) {
 				Article article = articles.get(i);
 
@@ -250,6 +247,9 @@ public class BuildService {
 						nextArticle != null ? nextArticle.title : "");
 				body = body.replace("${article-detail__link-next-article-class-addi}",
 						nextArticleId == 0 ? "none" : "");
+
+				body = body.replace("${site-domain}", "http://blog.imaginaryspace.kr");
+				body = body.replace("${file-name}", getArticleDetailFileName(article.id));
 
 				sb.append(body);
 
@@ -310,6 +310,13 @@ public class BuildService {
 		String siteDomain = "blog.imaginaryspace.kr/";
 		String siteMainUrl = "https://" + siteDomain;
 		String currentDate = Util.getNowDateStr().replace(" ", "T");
+
+		if (relObj instanceof Article) {
+			Article article = (Article) relObj;
+			siteSubject = article.title;
+			siteDescription = article.body;
+			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
+		}
 
 		head = head.replace("${site-name}", siteName);
 		head = head.replace("${site-subject}", siteSubject);
