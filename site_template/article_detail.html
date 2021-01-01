@@ -28,6 +28,10 @@
 				<div class="article-detail__board-name">${article-detail__board-name}</div>
 				<div class="article-detail__reg-date">${article-detail__reg-date}</div>
 				<div class="article-detail__writer">${article-detail__writer}</div>
+				<div class="article-detail__likes-count">추천수 :
+					${article-detail__likes-count}</div>
+				<div class="article-detail__comments-count">댓글수 :
+					${article-detail__comments-count}</div>
 			</div>
 
 			<div class="article-detail__body main-font">${article-detail__body}</div>
@@ -35,12 +39,11 @@
 			<div class="article-detail__reply-box">
 				<div id="disqus_thread"></div>
 				<script>
-				
-				disqus_config = function () {
-			        this.page.url = 'https://${site-domain}/${file-name}';
-			        this.page.identifier = '${file-name}';
-			    };
-				
+					var disqus_config = function() {
+						this.page.url = 'https://${site-domain}/${file-name}';
+						this.page.identifier = '${file-name}';
+					};
+
 					(function() { // DON'T EDIT BELOW THIS LINE
 						var d = document, s = d.createElement('script');
 						s.src = 'https://my-smg.disqus.com/embed.js';
@@ -72,10 +75,14 @@
 </section>
 
 <!-- 위로 가는 버튼 -->
-<div id="top"><a href="#"><i class="fa fa-arrow-up"></i></a></div>
+<div id="top">
+	<a href="#"><i class="fa fa-arrow-up"></i></a>
+</div>
 <script>
-    $('#top').click(function(){
-    $('html, body').animate({scrollTop:0}, 'slow');
-});
-</script><!-- // 위로 가는 버튼 -->  
-
+	$('#top').click(function() {
+		$('html, body').animate({
+			scrollTop : 0
+		}, 'slow');
+	});
+</script>
+<!-- // 위로 가는 버튼 -->

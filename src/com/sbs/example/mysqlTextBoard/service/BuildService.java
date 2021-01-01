@@ -1,6 +1,9 @@
+
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
@@ -8,13 +11,12 @@ import com.sbs.example.mysqlTextBoard.dto.Board;
 import com.sbs.example.mysqlTextBoard.util.Util;
 
 public class BuildService {
-
 	private ArticleService articleService;
-	private MemberService memberService;
+	private DisqusApiService disqusApiService;
 
 	public BuildService() {
 		articleService = Container.articleService;
-		memberService = Container.memberService;
+		disqusApiService = Container.disqusApiService;
 	}
 
 	public void buildSite() {
@@ -22,13 +24,34 @@ public class BuildService {
 		Util.mkdirs("site");
 
 		Util.copyDir("site_template/img", "site/img");
-
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
+
+		loadDisqusData();
 
 		buildIndexPage();
 		buildArticleListPages();
 		buildArticleDetailPages();
+	}
+
+	private void loadDisqusData() {
+		List<Article> articles = articleService.getForPrintArticles();
+
+		for (Article article : articles) {
+			Map<String, Object> disqusArticleData = disqusApiService.getArticleData(article);
+
+			if (disqusArticleData != null) {
+				int likesCount = (int) disqusArticleData.get("likesCount");
+				int commentsCount = (int) disqusArticleData.get("commentsCount");
+
+				Map<String, Object> modifyArgs = new HashMap<>();
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("commentsCount", commentsCount);
+
+				articleService.modify(modifyArgs);
+			}
+		}
 	}
 
 	private void buildArticleListPage(Board board, int itemsInAPage, int pageBoxSize, List<Article> articles,
@@ -197,6 +220,9 @@ public class BuildService {
 		for (Board board : boards) {
 			List<Article> articles = articleService.getForPrintArticles(board.id);
 
+			// 5
+			// i : 0 ~ 4
+			// 0, 1, 2, 3, 4
 			for (int i = 0; i < articles.size(); i++) {
 				Article article = articles.get(i);
 
@@ -231,6 +257,10 @@ public class BuildService {
 				body = body.replace("${article-detail__board-name}", article.extra__boardName);
 				body = body.replace("${article-detail__reg-date}", article.regDate);
 				body = body.replace("${article-detail__writer}", article.extra__writer);
+
+				body = body.replace("${article-detail__likes-count}", article.likesCount + "");
+				body = body.replace("${article-detail__comments-count}", article.commentsCount + "");
+
 				body = body.replace("${article-detail__body}", articleBodyForPrint);
 				body = body.replace("${article-detail__link-prev-article-url}",
 						getArticleDetailFileName(prevArticleId));
@@ -248,7 +278,7 @@ public class BuildService {
 				body = body.replace("${article-detail__link-next-article-class-addi}",
 						nextArticleId == 0 ? "none" : "");
 
-				body = body.replace("${site-domain}", "http://blog.imaginaryspace.kr");
+				body = body.replace("${site-domain}", "blog.imaginaryspace.kr");
 				body = body.replace("${file-name}", getArticleDetailFileName(article.id));
 
 				sb.append(body);
@@ -265,7 +295,7 @@ public class BuildService {
 		}
 	}
 
-	private String getArticleDetailFileName(int id) {
+	public String getArticleDetailFileName(int id) {
 		return "article_detail_" + id + ".html";
 	}
 
@@ -303,7 +333,7 @@ public class BuildService {
 
 		head = head.replace("${page-title}", pageTitle);
 
-		String siteName = "Imaginary";
+		String siteName = Container.config.getSiteName();
 		String siteSubject = "비전공자의 공부/일상 블로그";
 		String siteDescription = "비전공자의 공부/일상 관련 글들을 공유합니다.";
 		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, 리눅스, 리액트";
@@ -342,7 +372,7 @@ public class BuildService {
 		forPrintPageName = forPrintPageName.toUpperCase();
 		forPrintPageName = forPrintPageName.replaceAll("_", " ");
 
-		sb.append("상상의 공간 | ");
+		sb.append(Container.config.getSiteName() + " | ");
 		sb.append(forPrintPageName);
 
 		if (relObj instanceof Article) {
