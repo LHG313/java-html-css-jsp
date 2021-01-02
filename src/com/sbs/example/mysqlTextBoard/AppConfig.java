@@ -15,4 +15,24 @@ public class AppConfig {
 		return "my-smg";
 	}
 
+	public String getGa4PropertyId() {
+		return "256619008";
+	}
+
+	public String getDbHost() {
+		return "127.0.0.1";
+	}
+
+	public String getDbId() {
+		return "root";
+	}
+
+	public String getDbPw() {
+		return "";
+	}
+
+	public String getDbName() {
+		return "textBoard";
+	}
+
 }
