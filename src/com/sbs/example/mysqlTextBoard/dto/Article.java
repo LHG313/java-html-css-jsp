@@ -12,6 +12,7 @@ public class Article {
 	public int boardId;
 	public int likesCount;
 	public int commentsCount;
+	public int hitCount;
 
 	public String extra__writer;
 	public String extra__boardName;
@@ -27,13 +28,16 @@ public class Article {
 		this.boardId = (int) map.get("boardId");
 		this.likesCount = (int) map.get("likesCount");
 		this.commentsCount = (int) map.get("commentsCount");
+		this.hitCount = (int) map.get("hitCount");
 
 		if (map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
 		}
+
 		if (map.containsKey("extra__boardName")) {
 			this.extra__boardName = (String) map.get("extra__boardName");
 		}
+
 		if (map.containsKey("extra__boardCode")) {
 			this.extra__boardCode = (String) map.get("extra__boardCode");
 		}
@@ -41,10 +45,8 @@ public class Article {
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + ", likesCount=" + likesCount
-				+ ", commentsCount=" + commentsCount + ", extra__writer=" + extra__writer + ", extra__boardName="
-				+ extra__boardName + ", extra__boardCode=" + extra__boardCode + "]";
+		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title + ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + ", likesCount=" + likesCount + ", commentsCount=" + commentsCount
+				+ ", hitCount=" + hitCount + ", extra__writer=" + extra__writer + ", extra__boardName=" + extra__boardName + ", extra__boardCode=" + extra__boardCode + "]";
 	}
 
 }

@@ -21,11 +21,11 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
 
 public class Util {
 	public static void mkdirs(String path) {
 		File dir = new File(path);
+
 		if (dir.exists() == false) {
 			dir.mkdirs();
 		}
@@ -33,6 +33,7 @@ public class Util {
 
 	public static void writeFile(String path, String body) {
 		File file = new File(path);
+
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(body);
@@ -53,6 +54,7 @@ public class Util {
 				rmdir(file);
 			}
 		}
+
 		return dirToBeDeleted.delete();
 	}
 
@@ -62,22 +64,27 @@ public class Util {
 		try {
 			// 바이트 단위로 파일읽기
 			FileInputStream fileStream = null; // 파일 스트림
+
 			fileStream = new FileInputStream(filePath);// 파일 스트림 생성
 			// 버퍼 선언
 			byte[] readBuffer = new byte[fileStream.available()];
 			while (fileStream.read(readBuffer) != -1) {
 			}
+
 			rs = new String(readBuffer);
+
 			fileStream.close(); // 스트림 닫기
 		} catch (Exception e) {
 			e.getStackTrace();
 		}
+
 		return rs;
 	}
 
 	public static boolean copy(String sourcePath, String destPath) {
 		Path source = Paths.get(sourcePath);
 		Path target = Paths.get(destPath);
+
 		if (!Files.exists(target.getParent())) {
 			try {
 				Files.createDirectories(target.getParent());
@@ -86,11 +93,13 @@ public class Util {
 				return false;
 			}
 		}
+
 		try {
 			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			return true;
 		}
+
 		return true;
 	}
 
@@ -100,10 +109,10 @@ public class Util {
 
 	public static void copyDir(String sourceDirectoryLocation, String destinationDirectoryLocation) {
 		rmdir(destinationDirectoryLocation);
+
 		try {
 			Files.walk(Paths.get(sourceDirectoryLocation)).forEach(source -> {
-				Path destination = Paths.get(destinationDirectoryLocation,
-						source.toString().substring(sourceDirectoryLocation.length()));
+				Path destination = Paths.get(destinationDirectoryLocation, source.toString().substring(sourceDirectoryLocation.length()));
 				try {
 					Files.copy(source, destination);
 				} catch (IOException e) {

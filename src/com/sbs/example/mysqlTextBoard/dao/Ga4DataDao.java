@@ -10,8 +10,8 @@ public class Ga4DataDao {
 		sql.append("DELETE");
 		sql.append("FROM ga4DataPagePath");
 		sql.append("WHERE pagePath = ?", pagePath);
-		return MysqlUtil.delete(sql);
 
+		return MysqlUtil.delete(sql);
 	}
 
 	public int savePagePath(String pagePath, int hit) {
@@ -23,7 +23,6 @@ public class Ga4DataDao {
 		sql.append(", hit = ?", hit);
 
 		return MysqlUtil.insert(sql);
-
 	}
 
 }

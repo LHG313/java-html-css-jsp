@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dto.Article;
 import com.sbs.example.mysqlTextBoard.dto.Board;
@@ -33,7 +32,6 @@ public class ArticleService {
 	}
 
 	public int modify(int id, String title, String body) {
-
 		Map<String, Object> modifyArgs = new HashMap<>();
 		modifyArgs.put("id", id);
 		modifyArgs.put("title", title);
@@ -56,11 +54,13 @@ public class ArticleService {
 
 	public boolean isMakeBoardAvailableName(String name) {
 		Board board = articleDao.getBoardByName(name);
+
 		return board == null;
 	}
 
 	public boolean isMakeBoardAvailableCode(String code) {
 		Board board = articleDao.getBoardByCode(code);
+
 		return board == null;
 	}
 
@@ -81,7 +81,6 @@ public class ArticleService {
 	}
 
 	public void updatePageHits() {
-		articleDao.udatePageHits();
-
+		articleDao.updatePageHits();
 	}
 }

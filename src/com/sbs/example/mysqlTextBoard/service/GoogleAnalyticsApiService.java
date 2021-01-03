@@ -11,24 +11,20 @@ import com.google.analytics.data.v1alpha.Row;
 import com.google.analytics.data.v1alpha.RunReportRequest;
 import com.google.analytics.data.v1alpha.RunReportResponse;
 import com.sbs.example.mysqlTextBoard.Container;
-import com.sbs.example.mysqlTextBoard.dao.ArticleDao;
 import com.sbs.example.mysqlTextBoard.dao.Ga4DataDao;
 
-public class GoolgeAnalyticsApiService {
+public class GoogleAnalyticsApiService {
 	private Ga4DataDao ga4DataDao;
 
-	public GoolgeAnalyticsApiService() {
+	public GoogleAnalyticsApiService() {
 		ga4DataDao = new Ga4DataDao();
 	}
 
 	public boolean updateGa4DataPageHits() {
-
 		String ga4PropertyId = Container.config.getGa4PropertyId();
+
 		try (AlphaAnalyticsDataClient analyticsData = AlphaAnalyticsDataClient.create()) {
-			RunReportRequest request = RunReportRequest.newBuilder()
-					.setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId))
-					.addDimensions(Dimension.newBuilder().setName("pagePath"))
-					.addMetrics(Metric.newBuilder().setName("activeUsers"))
+			RunReportRequest request = RunReportRequest.newBuilder().setEntity(Entity.newBuilder().setPropertyId(ga4PropertyId)).addDimensions(Dimension.newBuilder().setName("pagePath")).addMetrics(Metric.newBuilder().setName("activeUsers"))
 					.addDateRanges(DateRange.newBuilder().setStartDate("2020-12-01").setEndDate("today")).build();
 
 			RunReportResponse response = analyticsData.runReport(request);
@@ -38,11 +34,11 @@ public class GoolgeAnalyticsApiService {
 				int hit = Integer.parseInt(row.getMetricValues(0).getValue());
 
 				update(pagePath, hit);
-
 			}
 		} catch (IOException e) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -54,7 +50,6 @@ public class GoolgeAnalyticsApiService {
 	public void updatePageHits() {
 		updateGa4DataPageHits();
 		Container.articleService.updatePageHits();
-		
 	}
 
 }
