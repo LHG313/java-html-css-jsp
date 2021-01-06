@@ -33,8 +33,32 @@ public class BuildService {
 		loadDataFromGa4Data();
 
 		buildIndexPage();
+		buildArticleSearchPage();
 		buildArticleListPages();
 		buildArticleDetailPages();
+	}
+
+	private void buildArticleSearchPage() {
+		List<Article> articles = articleService.getForPrintArticles(0);
+		String jsonText = Util.getJsonText(articles);
+		Util.writeFile("site/article_list.json", jsonText);
+
+		Util.copy("site_template/article_search.js", "site/article_search.js");
+
+		StringBuilder sb = new StringBuilder();
+
+		String head = getHeadHtml("article_search");
+		String foot = Util.getFileContents("site_template/foot.html");
+
+		String html = Util.getFileContents("site_template/article_search.html");
+
+		sb.append(head);
+		sb.append(html);
+		sb.append(foot);
+
+		String filePath = "site/article_search.html";
+		Util.writeFile(filePath, sb.toString());
+		System.out.println(filePath + " 생성");
 	}
 
 	private void loadDataFromGa4Data() {
@@ -367,7 +391,9 @@ public class BuildService {
 
 	private String getTitleBarContentByPageName(String pageName) {
 		if (pageName.equals("index")) {
-			return "<i class=\"fas fa-dove\"></i></i> <span>상상의 공간</span>";
+			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+		} else if (pageName.equals("article_search")) {
+			return "<i class=\"fas fa-search\"></i> <span>ARTICLE SEARCH</span>";
 		} else if (pageName.equals("article_detail")) {
 			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
 		} else if (pageName.startsWith("article_list_free")) {
