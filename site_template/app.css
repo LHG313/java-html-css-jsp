@@ -389,3 +389,32 @@ section{
 display : none;
 }
 /*vue 끝*/
+
+/*유튜브 스타일*/
+.toast-ui-youtube-plugin-wrap {
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+  position:relative;
+}
+
+.toast-ui-youtube-plugin-wrap > iframe {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.toast-ui-youtube-plugin-wrap::before {
+  content:"";
+  display:block;
+  padding-top:calc(100% / 16 * 9);
+}
+/*유튜브 끝*/
+
+/*codepen 적용*/
+.toast-ui-codepen-plugin-wrap > iframe {
+  width:100%;
+}
+/*codepen 끝 */
