@@ -384,5 +384,8 @@ section{
   margin-right:20px
 }
 
-
-
+/*vue 시작*/
+[v-cloak] {
+display : none;
+}
+/*vue 끝*/
