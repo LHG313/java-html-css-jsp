@@ -1,6 +1,7 @@
 package com.sbs.example.mysqlTextBoard.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,11 +89,21 @@ public class ArticleService {
 		articleDao.updatePageHits();
 	}
 
-	public Map<String, List<Tag>> getArticlesByTagMap() {
-		List<Tag> tags = tagService.getTagsByRelTypeCode("article");
+	public Map<String, List<Article>> getArticlesByTagMap() {
+		Map<String, List<Article>> map = new LinkedHashMap<>();
 
-		System.out.println(tags);
+		List<String> tagBodies = tagService.getDedupTagBodiesByRelTypeCode("article");
 
-		return null;
+		for (String tagBody : tagBodies) {
+			List<Article> articles = getForPrintArticlesByTag(tagBody);
+
+			map.put(tagBody, articles);
+		}
+
+		return map;
+	}
+
+	private List<Article> getForPrintArticlesByTag(String tagBody) {
+		return articleDao.getForPrintArticlesByTag(tagBody);
 	}
 }
