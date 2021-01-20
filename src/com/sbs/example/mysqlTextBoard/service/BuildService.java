@@ -412,7 +412,7 @@ public class BuildService {
 		} else if (pageName.startsWith("article_list_java")) {
 			return "<i class=\"fab fa-java\"></i> <span>JAVA LIST</span>";
 		} else if (pageName.startsWith("article_list_c")) {
-			return "<i class=\"far fa-copyright\"></i> <span>C언어 LIST</span>";
+			return "<i class=\"far fa-copyright\"></i> <span>언어 LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
 		}
