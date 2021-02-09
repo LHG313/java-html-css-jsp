@@ -7,6 +7,13 @@ updateDate = NOW(),
 `name` = 'JAVA',
 `code` = 'java';
 
+# 파이썬 게시판 추가
+INSERT INTO board 
+SET regDate = NOW(),
+updateDate = NOW(),
+`name` = '파이썬',
+`code` = 'phython';
+
 
 #사용자 전부삭제
 TRUNCATE `member`;
