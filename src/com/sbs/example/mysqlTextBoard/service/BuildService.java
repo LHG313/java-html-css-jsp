@@ -414,7 +414,9 @@ public class BuildService {
 		} else if (pageName.startsWith("article_list_c")) {
 			return "<i class=\"far fa-copyright\"></i> <span>언어 LIST</span>";
 		} else if (pageName.startsWith("article_list_phython")) {
-			return "<i class=\"fab fa-python\"></i> <span>언어 LIST</span>";
+			return "<i class=\"fab fa-python\"></i> <span>파이썬 LIST</span>";
+		} else if (pageName.startsWith("article_list_개발일지")) {
+			return "<i class=\"fas fa-journal-whills\"></i> <span>개발일지 LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
 			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
 		}

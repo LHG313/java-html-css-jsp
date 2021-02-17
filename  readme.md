@@ -1,6 +1,6 @@
 # 주요 명령어 
  - cmd 접속
- - c:\xampp\mysql\bin\mysqldump.exe -u root -p textBoard > C:\Users\User\Downloads\sts-4.8.0.RELEASE-workspace\mysql-text-board\site\current.sql
+ - c:\xampp\mysql\bin\mysqldump.exe -u sbsst -p textBoard > C:\Users\User\Downloads\sts-4.8.0.RELEASE-workspace\mysql-text-board\site\current.sql
  
  # 환경변수
  -GOOGLE_APPLICATION_CREDENTIALS= C:\Users\User\Downloads\sts-4.8.0.RELEASE-workspace\LHG_google_key\imaginary-300414-b9f7c548ed00.json
